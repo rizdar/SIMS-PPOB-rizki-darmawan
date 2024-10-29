@@ -3,22 +3,23 @@ import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import TopUpPage from "./pages/TopUpPage";
 import TransactionHistoryPage from "./pages/TransactionHistoryPage";
+import * as Constant from "./constant/Constant";
 
 const router = createBrowserRouter([
   {
-    path: "/login",
+    path: Constant.LOGINPAGE,
     element: <LoginPage />,
   },
   {
-    path: "/register",
+    path: Constant.REGISTERPAGE,
     element: <RegistrationPage />,
   },
   {
-    path: "/top-up",
+    path: Constant.TOPUPPAGE,
     element: <TopUpPage />,
   },
   {
-    path: "/transaction-history",
+    path: Constant.TRANSACTIONPAGE,
     element: <TransactionHistoryPage />,
   },
 ]);
