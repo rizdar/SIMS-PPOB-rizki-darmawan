@@ -4,6 +4,8 @@ import RegistrationPage from "./pages/RegistrationPage";
 import TopUpPage from "./pages/TopUpPage";
 import TransactionHistoryPage from "./pages/TransactionHistoryPage";
 import * as Constant from "./constant/Constant";
+import { Provider } from "react-redux";
+import store from "./store";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +27,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
 }
 
 export default App;
