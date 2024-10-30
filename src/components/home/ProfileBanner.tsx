@@ -38,6 +38,12 @@ export default function ProfileBanner() {
               : profileAvatar
           }
           alt="profile"
+          style={{
+            width: "100px",
+            height: "100px",
+            borderRadius: "50%",
+            objectFit: "cover",
+          }}
         />
         <Typography mt={1}>Selamat Datang,</Typography>
         {firstName && lastName && (
