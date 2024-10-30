@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchProfile } from "../actions/profileAction";
+import { fetchProfile, updateProfile } from "../actions/profileAction";
 
 interface ProfileData {
   email: string;
@@ -19,9 +19,10 @@ interface ProfileState {
   firstName: string | null;
   lastName: string | null;
   profileImage: string | null;
-
+  data: ProfileResponse | null;
   loading: boolean;
   error: string | null;
+  success: boolean;
 }
 
 const initialState: ProfileState = {
@@ -29,14 +30,19 @@ const initialState: ProfileState = {
   firstName: null,
   lastName: null,
   profileImage: null,
-
+  data: null,
   loading: false,
   error: null,
+  success: false,
 };
 const profileSlice = createSlice({
   name: "profile",
   initialState,
-  reducers: {},
+  reducers: {
+    resetState: (state) => {
+      state.success = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Reducer untuk fetchProfile
@@ -60,8 +66,30 @@ const profileSlice = createSlice({
       .addCase(fetchProfile.rejected, (state, action: any) => {
         state.loading = false;
         state.error = action.error.message || "Error fetching profile";
-      });
+      })
+
+      // Update Profile
+      .addCase(updateProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        updateProfile.fulfilled,
+        (state, action: PayloadAction<ProfileResponse | any>) => {
+          state.loading = false;
+          state.data = action.payload;
+          state.success = true;
+        }
+      )
+      .addCase(
+        updateProfile.rejected,
+        (state, action: PayloadAction<string | undefined>) => {
+          state.loading = false;
+          state.error = action.payload || "Failed to update profile.";
+        }
+      );
   },
 });
 
+export const { resetState } = profileSlice.actions;
 export default profileSlice.reducer;

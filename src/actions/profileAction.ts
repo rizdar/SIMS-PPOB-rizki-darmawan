@@ -9,6 +9,12 @@ interface ProfileResponse {
   profile_image: string;
 }
 
+interface UpdateProfilePayload {
+  email: string;
+  first_name: string;
+  last_name: string;
+}
+
 const token = localStorage.getItem("token");
 
 export const fetchProfile = createAsyncThunk(
@@ -35,3 +41,28 @@ export const fetchProfile = createAsyncThunk(
     }
   }
 );
+
+export const updateProfile = createAsyncThunk<
+  ProfileResponse,
+  UpdateProfilePayload,
+  { rejectValue: string }
+>("profile/update", async (payload, { rejectWithValue }) => {
+  try {
+    const response = await axios.put<ProfileResponse>(
+      `${Constant.BASEURL}/profile/update`,
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+    return rejectWithValue("An unknown error occurred");
+  }
+});

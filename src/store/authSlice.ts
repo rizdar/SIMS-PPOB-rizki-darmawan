@@ -13,16 +13,14 @@ interface AuthResponse {
 
 interface AuthState {
   loading: boolean;
-  userInfo: UserInfo | null;
-  userToken: string | null;
+
   error: string | null;
   success: boolean;
 }
 
 const initialState: AuthState = {
   loading: false,
-  userInfo: null,
-  userToken: null,
+
   error: null,
   success: false,
 };
@@ -34,6 +32,12 @@ const authSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    logout: (state) => {
+      state.loading = false;
+      state.success = false;
+      state.error = null;
+      localStorage.removeItem("token");
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -41,15 +45,10 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(
-        registerUser.fulfilled,
-        (state, action: PayloadAction<AuthResponse | any>) => {
-          state.loading = false;
-          state.success = true;
-          state.userInfo = action.payload.data;
-          state.userToken = action.payload.data.token;
-        }
-      )
+      .addCase(registerUser.fulfilled, (state) => {
+        state.loading = false;
+        state.success = true;
+      })
       .addCase(
         registerUser.rejected,
         (state, action: PayloadAction<unknown>) => {
@@ -68,8 +67,6 @@ const authSlice = createSlice({
         (state, action: PayloadAction<AuthResponse | any>) => {
           state.loading = false;
           state.success = true;
-          state.userInfo = action.payload.data.data;
-          state.userToken = action.payload.data.token;
 
           localStorage.setItem("token", action.payload.data.data.token);
         }
@@ -81,5 +78,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { clearError } = authSlice.actions;
+export const { clearError, logout } = authSlice.actions;
 export default authSlice.reducer;
