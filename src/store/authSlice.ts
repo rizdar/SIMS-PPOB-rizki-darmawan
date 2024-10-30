@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { registerUser } from "../actions/authAction";
+import { loginUser, registerUser } from "../actions/authAction";
 
 interface UserInfo {
   token: string;
@@ -30,7 +30,11 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    clearError: (state) => {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
@@ -39,7 +43,7 @@ const authSlice = createSlice({
       })
       .addCase(
         registerUser.fulfilled,
-        (state, action: PayloadAction<AuthResponse>) => {
+        (state, action: PayloadAction<AuthResponse | any>) => {
           state.loading = false;
           state.success = true;
           state.userInfo = action.payload.data;
@@ -48,12 +52,34 @@ const authSlice = createSlice({
       )
       .addCase(
         registerUser.rejected,
-        (state, action: PayloadAction<string | unknown>) => {
+        (state, action: PayloadAction<unknown>) => {
           state.loading = false;
           state.error = action.payload as string;
         }
-      );
+      )
+
+      // handle login
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        loginUser.fulfilled,
+        (state, action: PayloadAction<AuthResponse | any>) => {
+          state.loading = false;
+          state.success = true;
+          state.userInfo = action.payload.data.data;
+          state.userToken = action.payload.data.token;
+
+          localStorage.setItem("token", action.payload.data.data.token);
+        }
+      )
+      .addCase(loginUser.rejected, (state, action: PayloadAction<unknown>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
   },
 });
 
+export const { clearError } = authSlice.actions;
 export default authSlice.reducer;

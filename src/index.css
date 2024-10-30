@@ -2,3 +2,11 @@
   background-color: orangered !important;
   color: white !important;
 }
+
+.slick-slide {
+  margin: 0 10px; /* Spacing between slides */
+}
+
+.slick-list {
+  margin: 0 -10px; /* Adjust for spacing */
+}

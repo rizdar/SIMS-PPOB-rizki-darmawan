@@ -6,8 +6,30 @@ import TransactionHistoryPage from "./pages/TransactionHistoryPage";
 import * as Constant from "./constant/Constant";
 import { Provider } from "react-redux";
 import store from "./store";
+import RootLayoutPage from "./pages/RootLayoutPage";
+import ProfilePage from "./pages/ProfilePage";
+import HomePage from "./pages/HomePage";
 
 const router = createBrowserRouter([
+  {
+    path: Constant.HOMEPAGE,
+    element: <RootLayoutPage />,
+    children: [
+      { index: true, element: <HomePage /> },
+      {
+        path: Constant.TOPUPPAGE,
+        element: <TopUpPage />,
+      },
+      {
+        path: Constant.TRANSACTIONPAGE,
+        element: <TransactionHistoryPage />,
+      },
+      {
+        path: Constant.PROFILEPAGE,
+        element: <ProfilePage />,
+      },
+    ],
+  },
   {
     path: Constant.LOGINPAGE,
     element: <LoginPage />,
@@ -15,14 +37,6 @@ const router = createBrowserRouter([
   {
     path: Constant.REGISTERPAGE,
     element: <RegistrationPage />,
-  },
-  {
-    path: Constant.TOPUPPAGE,
-    element: <TopUpPage />,
-  },
-  {
-    path: Constant.TRANSACTIONPAGE,
-    element: <TransactionHistoryPage />,
   },
 ]);
 
