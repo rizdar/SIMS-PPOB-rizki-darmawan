@@ -76,7 +76,12 @@ export default function ProfileBanner() {
       >
         <Typography>Saldo Anda</Typography>
         <Typography variant="h5">
-          Rp {showBalance ? balance : "**********"}
+          {showBalance
+            ? new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+              }).format(Number(balance))
+            : "Rp **********"}
         </Typography>
         <Box display="flex" alignItems="center">
           <Typography>Lihat Saldo</Typography>
