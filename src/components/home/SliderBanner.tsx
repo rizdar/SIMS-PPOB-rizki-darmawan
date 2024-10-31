@@ -42,7 +42,7 @@ export default function SliderBanner() {
         }}
       >
         {banners.map((b) => (
-          <Box key={b.banner_name}>
+          <Box key={b.banner_name} width="100%">
             <img
               src={b.banner_image}
               alt={b.banner_name}

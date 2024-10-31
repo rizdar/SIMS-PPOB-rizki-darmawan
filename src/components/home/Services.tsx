@@ -45,7 +45,8 @@ export default function Services() {
               flexDirection: "column",
               alignItems: "center",
               marginRight: 2,
-              width: "100px",
+              // width: "100px",
+              width: "100%",
             }}
           >
             <img src={service.service_icon} />
