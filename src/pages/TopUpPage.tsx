@@ -53,6 +53,7 @@ export default function TopUpPage() {
       showAlert("Success!", "Top up berhasil!", "success").then((r) => {
         if (r.isConfirmed) {
           setSelectedNominal("");
+          window.location.reload();
         }
       });
     } catch (error) {

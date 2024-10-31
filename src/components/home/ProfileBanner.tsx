@@ -1,13 +1,16 @@
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import bgSaldo from "../../assets/images/background-saldo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchProfile, getBalance } from "../../actions/profileAction";
 import profileAvatar from "../../assets/images/profile.png";
 import LoadingIndicator from "../common/Loading";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export default function ProfileBanner() {
+  const [showBalance, setShowBalance] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const { firstName, lastName, profileImage, loading, balance } = useSelector(
     (state: RootState) => state.profile
@@ -17,6 +20,10 @@ export default function ProfileBanner() {
     dispatch(fetchProfile());
     dispatch(getBalance());
   }, [dispatch]);
+
+  const handleToggleBalance = () => {
+    setShowBalance((prevState) => !prevState);
+  };
 
   if (loading) {
     return <LoadingIndicator />;
@@ -68,8 +75,15 @@ export default function ProfileBanner() {
         }}
       >
         <Typography>Saldo Anda</Typography>
-        <Typography variant="h5">Rp {balance}</Typography>
-        <Typography>Lihat Saldo</Typography>
+        <Typography variant="h5">
+          Rp {showBalance ? balance : "**********"}
+        </Typography>
+        <Box display="flex" alignItems="center">
+          <Typography>Lihat Saldo</Typography>
+          <IconButton onClick={handleToggleBalance} sx={{ color: "white" }}>
+            {showBalance ? <VisibilityIcon /> : <VisibilityOffIcon />}
+          </IconButton>
+        </Box>
       </Box>
     </Box>
   );
