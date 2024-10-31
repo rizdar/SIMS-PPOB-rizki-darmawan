@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 
 const NAVLINKS = [
@@ -18,6 +18,7 @@ const NAVLINKS = [
 ];
 
 export default function Navbar() {
+  const location = useLocation();
   return (
     <Box
       display="flex"
@@ -39,7 +40,11 @@ export default function Navbar() {
           <Link
             to={n.path}
             key={n.label}
-            style={{ textDecoration: "none", color: "inherit" }}
+            style={{
+              textDecoration: "none",
+              color: location.pathname === n.path ? "orangered" : "inherit",
+              fontWeight: location.pathname === n.path ? "bold" : "normal",
+            }}
           >
             <Typography variant="subtitle1">{n.label}</Typography>
           </Link>
