@@ -1,5 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchProfile, updateProfile } from "../actions/profileAction";
+import {
+  fetchProfile,
+  updateProfile,
+  getBalance,
+} from "../actions/profileAction";
 
 interface ProfileData {
   email: string;
@@ -14,6 +18,10 @@ interface ProfileResponse {
   data: ProfileData;
 }
 
+interface BalanceResponse {
+  balance: number;
+}
+
 interface ProfileState {
   email: string | null;
   firstName: string | null;
@@ -23,6 +31,7 @@ interface ProfileState {
   loading: boolean;
   error: string | null;
   success: boolean;
+  balance: number | null;
 }
 
 const initialState: ProfileState = {
@@ -34,6 +43,7 @@ const initialState: ProfileState = {
   loading: false,
   error: null,
   success: false,
+  balance: null,
 };
 const profileSlice = createSlice({
   name: "profile",
@@ -87,7 +97,26 @@ const profileSlice = createSlice({
           state.loading = false;
           state.error = action.payload || "Failed to update profile.";
         }
-      );
+      )
+
+      //  get balance
+      .addCase(getBalance.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        getBalance.fulfilled,
+        (state, action: PayloadAction<BalanceResponse | any>) => {
+          const { balance } = action.payload.data;
+
+          state.loading = false;
+          state.balance = balance;
+        }
+      )
+      .addCase(getBalance.rejected, (state, action: any) => {
+        state.loading = false;
+        state.error = action.error.message || "Error fetching profile";
+      });
   },
 });
 

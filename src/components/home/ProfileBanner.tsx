@@ -1,20 +1,21 @@
 import { Box, Typography } from "@mui/material";
 import bgSaldo from "../../assets/images/background-saldo.png";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
+import { AppDispatch, RootState } from "../../store";
 import { useEffect } from "react";
-import { fetchProfile } from "../../actions/profileAction";
+import { fetchProfile, getBalance } from "../../actions/profileAction";
 import profileAvatar from "../../assets/images/profile.png";
 import LoadingIndicator from "../common/Loading";
 
 export default function ProfileBanner() {
-  const dispatch = useDispatch();
-  const { firstName, lastName, profileImage, loading } = useSelector(
+  const dispatch = useDispatch<AppDispatch>();
+  const { firstName, lastName, profileImage, loading, balance } = useSelector(
     (state: RootState) => state.profile
   );
 
   useEffect(() => {
     dispatch(fetchProfile());
+    dispatch(getBalance());
   }, [dispatch]);
 
   if (loading) {
@@ -67,7 +68,7 @@ export default function ProfileBanner() {
         }}
       >
         <Typography>Saldo Anda</Typography>
-        <Typography variant="h5">Rp ************</Typography>
+        <Typography variant="h5">Rp {balance}</Typography>
         <Typography>Lihat Saldo</Typography>
       </Box>
     </Box>

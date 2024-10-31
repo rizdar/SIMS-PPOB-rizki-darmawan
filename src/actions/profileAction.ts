@@ -9,6 +9,10 @@ interface ProfileResponse {
   profile_image: string;
 }
 
+interface BalanceResponse {
+  balance: number;
+}
+
 interface UpdateProfilePayload {
   email: string;
   first_name: string;
@@ -66,3 +70,28 @@ export const updateProfile = createAsyncThunk<
     return rejectWithValue("An unknown error occurred");
   }
 });
+
+export const getBalance = createAsyncThunk(
+  "profile/balance",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get<BalanceResponse>(
+        `${Constant.BASEURL}/balance`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response && error.response.data.message) {
+          return rejectWithValue(error.response.data.message);
+        }
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue("An unknown error occurred");
+    }
+  }
+);
