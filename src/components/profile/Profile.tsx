@@ -109,6 +109,7 @@ export default function Profile() {
         if (r.isConfirmed) {
           setIsEditing(false);
           dispatch(resetState());
+          window.location.reload();
         }
       });
     }
