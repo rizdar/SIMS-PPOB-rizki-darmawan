@@ -1,50 +1,63 @@
-# React + TypeScript + Vite
+# SIMS PPOB-Rizki Darmawan
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Fitur
 
-Currently, two official plugins are available:
+1. **Registrasi**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+   - Pengguna dapat mendaftar untuk membuat akun baru.
 
-## Expanding the ESLint configuration
+2. **Login**
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+   - Pengguna dapat masuk ke akun mereka menggunakan kredensial yang telah terdaftar.
 
-- Configure the top-level `parserOptions` property like this:
+3. **Lihat Profil**
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+   - Pengguna dapat melihat informasi profil mereka.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+4. **Update Profil Data**
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+   - Pengguna dapat memperbarui informasi pribadi mereka.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+5. **Update Profil Picture**
+
+   - Pengguna dapat mengganti gambar profil mereka.
+
+6. **Top Up**
+
+   - Pengguna dapat menambahkan saldo ke akun mereka.
+
+7. **Pembayaran**
+
+   - Pengguna dapat melakukan pembayaran untuk berbagai layanan.
+
+8. **Riwayat Transaksi**
+   - Pengguna dapat melihat riwayat transaksi yang telah dilakukan.
+
+## Prasyarat
+
+Sebelum memulai, pastikan telah menginstal:
+
+- Node.js (versi 20 atau lebih baru)
+
+## Instalasi
+
+Ikuti langkah-langkah berikut untuk menginstal dan menjalankan proyek:
+
+1. Clone repositori ini:
+
+   ```bash
+   git clone https://github.com/rizdar/SIMS-PPOB-rizki-darmawan.git
+   cd SIMS-PPOB-rizki-darmawan
+   ```
+
+2. Install Dependencies:
+
+   ```bash
+   npm run install
+   ```
+
+3. Menjalankan Program:
+
+   ```bash
+   npm run dev
+   ```
