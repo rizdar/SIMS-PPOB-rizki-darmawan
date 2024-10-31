@@ -255,6 +255,7 @@ export default function Profile() {
                   onClick={() => {
                     dispatch(logout());
                     navigate("/login");
+                    window.location.reload();
                   }}
                   type="button"
                 >

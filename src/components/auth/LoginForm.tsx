@@ -50,6 +50,7 @@ export default function LoginForm() {
         if (result.isConfirmed) {
           dispatch(clearError());
           navigate("/");
+          window.location.reload();
         }
       });
     }
