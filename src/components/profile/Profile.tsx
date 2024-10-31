@@ -35,7 +35,7 @@ interface UpdateUserInput {
 export default function Profile() {
   const dispatch = useDispatch<AppDispatch>();
   const [isEditing, setIsEditing] = useState(false);
-  const [avatar, setAvatar] = useState<File | null>(null);
+
   const [preview, setPreview] = useState<string | null>(null);
   const { showAlert } = useSweetAlert();
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ export default function Profile() {
     const files = event.target.files;
     if (files && files.length > 0) {
       const file = files[0];
-      setAvatar(file);
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result as string);
@@ -72,21 +72,12 @@ export default function Profile() {
       try {
         const token = localStorage.getItem("token");
 
-        // Kirim PUT request ke server
-        const response = await axios.put(
-          `${Constant.BASEURL}/profile/image`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        // Tangani response dari server
-        console.log("Response:", response.data);
-        // setProfileImage(response.data.imageUrl); // Ganti dengan properti yang sesuai dari response
+        await axios.put(`${Constant.BASEURL}/profile/image`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        });
       } catch (error) {
         console.error("Error uploading image:", error);
       }
