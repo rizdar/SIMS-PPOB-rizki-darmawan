@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   FormControl,
+  IconButton,
   InputAdornment,
   InputLabel,
   TextField,
@@ -21,6 +22,9 @@ import useSweetAlert from "../../hooks/use-sweet-alert";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../store/authSlice";
 import { resetState } from "../../store/profileSlice";
+import axios from "axios";
+import * as Constant from "../../constant/Constant";
+import EditIcon from "@mui/icons-material/Edit";
 
 interface UpdateUserInput {
   email: string;
@@ -49,7 +53,9 @@ export default function Profile() {
     mode: "onBlur",
   });
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const files = event.target.files;
     if (files && files.length > 0) {
       const file = files[0];
@@ -59,6 +65,31 @@ export default function Profile() {
         setPreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const token = localStorage.getItem("token");
+
+        // Kirim PUT request ke server
+        const response = await axios.put(
+          `${Constant.BASEURL}/profile/image`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        // Tangani response dari server
+        console.log("Response:", response.data);
+        // setProfileImage(response.data.imageUrl); // Ganti dengan properti yang sesuai dari response
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
     }
   };
 
@@ -119,28 +150,40 @@ export default function Profile() {
             onChange={handleImageChange}
             style={{ display: "none" }}
           />
-
-          {preview ? (
-            <img
-              src={preview}
-              alt="avatar"
-              style={{ borderRadius: "50%", width: "100px", height: "100px" }}
+          <Box display="flex" justifyContent="center" position="relative">
+            {preview ? (
+              <img
+                src={preview}
+                alt="avatar"
+                style={{ borderRadius: "50%", width: "100px", height: "100px" }}
+                onClick={() => document.getElementById("image-upload")?.click()}
+              />
+            ) : (
+              <img
+                src={
+                  profileImage &&
+                  profileImage !==
+                    "https://minio.nutech-integrasi.com/take-home-test/null"
+                    ? profileImage
+                    : profileAvatar
+                }
+                onClick={() => document.getElementById("image-upload")?.click()}
+                alt="avatar"
+                style={{ borderRadius: "50%", width: "100px", height: "100px" }}
+              />
+            )}
+            <IconButton
+              style={{
+                position: "absolute",
+                bottom: 0,
+                right: -18,
+                borderRadius: "50%",
+              }}
               onClick={() => document.getElementById("image-upload")?.click()}
-            />
-          ) : (
-            <img
-              src={
-                profileImage &&
-                profileImage !==
-                  "https://minio.nutech-integrasi.com/take-home-test/null"
-                  ? profileImage
-                  : profileAvatar
-              }
-              onClick={() => document.getElementById("image-upload")?.click()}
-              alt="avatar"
-              style={{ borderRadius: "50%", width: "100px", height: "100px" }}
-            />
-          )}
+            >
+              <EditIcon />
+            </IconButton>
+          </Box>
           <Typography>
             {firstName && lastName && `${firstName}  ${lastName}`}
           </Typography>
