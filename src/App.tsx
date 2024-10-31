@@ -9,6 +9,7 @@ import store from "./store";
 import RootLayoutPage from "./pages/RootLayoutPage";
 import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
+import BayarPage from "./pages/BayarPage";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: Constant.PROFILEPAGE,
         element: <ProfilePage />,
+      },
+      {
+        path: Constant.BAYARPAGE,
+        element: <BayarPage />,
       },
     ],
   },

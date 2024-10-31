@@ -15,6 +15,10 @@ const NAVLINKS = [
     path: "/profile",
     label: "Akun",
   },
+  {
+    path: "/bayar",
+    label: "Bayar",
+  },
 ];
 
 export default function Navbar() {
