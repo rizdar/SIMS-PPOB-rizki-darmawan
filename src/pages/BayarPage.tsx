@@ -11,6 +11,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
 import * as Constant from "../constant/Constant";
 import useShowAlert from "../hooks/use-sweet-alert";
+import { getAuthToken } from "../utils/getAuthToken";
 
 interface FormValues {
   nominal: number;
@@ -30,7 +31,7 @@ export default function BayarPage() {
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    const token = localStorage.getItem("token");
+    const token = getAuthToken();
     try {
       const res = await axios.post(
         `${Constant.BASEURL}/transaction`,

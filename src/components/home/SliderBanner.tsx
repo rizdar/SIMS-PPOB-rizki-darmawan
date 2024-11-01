@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import * as Constant from "../../constant/Constant";
 
 import { Box, Typography } from "@mui/material";
+import { getAuthToken } from "../../utils/getAuthToken";
 
 type BannerType = {
   banner_name: string;
@@ -13,7 +14,7 @@ type BannerType = {
 export default function SliderBanner() {
   const [banners, setBanners] = useState<BannerType[]>([]);
 
-  const token = localStorage.getItem("token");
+  const token = getAuthToken();
 
   useEffect(() => {
     const fetcService = async () => {

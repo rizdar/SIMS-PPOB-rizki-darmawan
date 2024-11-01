@@ -37,6 +37,7 @@ const authSlice = createSlice({
       state.success = false;
       state.error = null;
       localStorage.removeItem("token");
+      localStorage.removeItem("expiration");
     },
   },
   extraReducers: (builder) => {
@@ -69,6 +70,10 @@ const authSlice = createSlice({
           state.success = true;
 
           localStorage.setItem("token", action.payload.data.data.token);
+
+          const expiration = new Date();
+          expiration.setHours(expiration.getHours() + 12);
+          localStorage.setItem("expiration", expiration.toISOString());
         }
       )
       .addCase(loginUser.rejected, (state, action: PayloadAction<unknown>) => {

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import * as Constant from "../../constant/Constant";
 import { Box } from "@mui/material";
+import { getAuthToken } from "../../utils/getAuthToken";
 
 type ServiceType = {
   service_code: string;
@@ -12,7 +13,7 @@ type ServiceType = {
 export default function Services() {
   const [services, setServices] = useState<ServiceType[]>([]);
 
-  const token = localStorage.getItem("token");
+  const token = getAuthToken();
 
   useEffect(() => {
     const fetcService = async () => {

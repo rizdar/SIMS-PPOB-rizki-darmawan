@@ -13,8 +13,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
 import * as Constant from "../constant/Constant";
 import useShowAlert from "../hooks/use-sweet-alert";
+import { getAuthToken } from "../utils/getAuthToken";
 
-const token = localStorage.getItem("token");
 const nominalList = [10000, 20000, 50000, 100000, 250000, 500000];
 
 interface FormData {
@@ -22,6 +22,7 @@ interface FormData {
 }
 
 export default function TopUpPage() {
+  const token = getAuthToken();
   const [selectedNominal, setSelectedNominal] = useState<number | "">("");
   const { showAlert } = useShowAlert();
   const {

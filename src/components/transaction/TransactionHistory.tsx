@@ -35,7 +35,6 @@ export default function TransactionHistory() {
       );
 
       const data = response.data.data.records;
-      console.log(data, "response");
 
       if (data.length < 3) setHasMore(false);
 

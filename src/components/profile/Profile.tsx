@@ -25,6 +25,7 @@ import { resetState } from "../../store/profileSlice";
 import axios from "axios";
 import * as Constant from "../../constant/Constant";
 import EditIcon from "@mui/icons-material/Edit";
+import { getAuthToken } from "../../utils/getAuthToken";
 
 interface UpdateUserInput {
   email: string;
@@ -70,7 +71,7 @@ export default function Profile() {
       formData.append("file", file);
 
       try {
-        const token = localStorage.getItem("token");
+        const token = getAuthToken();
 
         await axios.put(`${Constant.BASEURL}/profile/image`, formData, {
           headers: {
