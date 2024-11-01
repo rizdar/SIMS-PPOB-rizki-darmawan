@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import * as Constant from "../../constant/Constant";
 import { Box } from "@mui/material";
 import { getAuthToken } from "../../utils/getAuthToken";
+import { Link } from "react-router-dom";
 
 type ServiceType = {
   service_code: string;
   service_name: string;
   service_icon: string;
+  service_tariff: number;
 };
 
 export default function Services() {
@@ -39,28 +41,41 @@ export default function Services() {
     >
       {services.length > 0 &&
         services.map((service) => (
-          <Box
+          <Link
+            to={`/bayar?service=${service.service_code}&service_icon=${service.service_icon}&service_tarif=${service.service_tariff}&service_name=${service.service_name}`}
             key={service.service_code}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              marginRight: 2,
-              // width: "100px",
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+              fontFamily: "inherit",
               width: "100%",
+
+              marginRight: 2,
             }}
           >
-            <img src={service.service_icon} />
-            <small
-              style={{
-                fontSize: 12,
-                textAlign: "center",
-                fontWeight: 400,
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+
+                alignItems: "center",
+                // marginRight: 2,
+                // width: "100px",
+                width: "100%",
               }}
             >
-              {service.service_name}
-            </small>
-          </Box>
+              <img src={service.service_icon} />
+              <small
+                style={{
+                  fontSize: 12,
+                  textAlign: "center",
+                  fontWeight: 400,
+                }}
+              >
+                {service.service_name}
+              </small>
+            </Box>
+          </Link>
         ))}
     </Box>
   );

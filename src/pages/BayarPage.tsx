@@ -12,6 +12,7 @@ import axios from "axios";
 import * as Constant from "../constant/Constant";
 import useShowAlert from "../hooks/use-sweet-alert";
 import { getAuthToken } from "../utils/getAuthToken";
+import { useLocation } from "react-router-dom";
 
 interface FormValues {
   nominal: number;
@@ -19,6 +20,13 @@ interface FormValues {
 
 export default function BayarPage() {
   const { showAlert } = useShowAlert();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const serviceCode = queryParams.get("service");
+  const serviceName = queryParams.get("service_name");
+  const serviceIcon = queryParams.get("service_icon");
+  const serviceTarif = queryParams.get("service_tarif");
+
   const {
     register,
     formState: { errors },
@@ -26,7 +34,7 @@ export default function BayarPage() {
   } = useForm<FormValues>({
     mode: "all",
     defaultValues: {
-      nominal: 10000,
+      nominal: parseInt(serviceTarif as string),
     },
   });
 
@@ -36,7 +44,7 @@ export default function BayarPage() {
       const res = await axios.post(
         `${Constant.BASEURL}/transaction`,
         {
-          service_code: "PLN",
+          service_code: serviceCode,
           total_amount: data.nominal,
         },
 
@@ -60,7 +68,10 @@ export default function BayarPage() {
     <Box paddingX={10}>
       <ProfileBanner />
       <Typography>Pembayaran</Typography>
-      <Typography variant="h6">PLN</Typography>
+      <Box display="flex" alignItems="center">
+        <img src={serviceIcon!} alt={`logo ${serviceName}`} />
+        <Typography variant="h6">{serviceName}</Typography>
+      </Box>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
           id="nominal"
